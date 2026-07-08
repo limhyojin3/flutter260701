@@ -33,10 +33,10 @@ class MyApp extends StatelessWidget {
         "age" : 20,
         "cdate" : Timestamp.now()
       };
-      // await fs.collection("users").add(user);
+      await fs.collection("users").add(user);
 
       // 문서 ID 직접 넣는 경우
-      await fs.collection("users").doc("abcd").set(user);
+      // await fs.collection("users").doc("abcd").set(user);
 
       // await fs.collection("users").add({
       //   "name" : "김철수",
@@ -47,13 +47,37 @@ class MyApp extends StatelessWidget {
 
     Future<void> getUserList() async{
       // final snapshot = await fs.collection("users").get();
+
       final snapshot =
         await fs.collection("users")
                 // .where("age", isGreaterThan: 20) //age > 20
-                .where("age", isGreaterThanOrEqualTo: 25) //age >= 25
+                .where("age", isGreaterThanOrEqualTo: 20) //age >= 20
                 // .orderBy("age") //age 필드 기준으로 오른차순
                 .orderBy("age", descending: true) //age 필드 기준으로 내림차순
                 .get();
+      // snapshot.docs
+      for(var doc in snapshot.docs){ //doc==map
+        Map<String, dynamic> user = doc.data();
+        // print(user);
+        print("문서 ID : ${doc.id}, 이름 : ${user["name"]}, 나이 : ${user["age"]}, addr : ${user["addr"]}" );
+      }
+    }
+
+    Future<void> updateUser() async{
+      // Map<String, dynamic> user = {
+      //   "name" : "차두리",
+      //   "age" : 20,
+      //   "cdate" : Timestamp.now()
+      // };
+
+      fs.collection("users").doc("voyA91fQP3bJgHpgcQOP").update({
+        "name" : "박영희수환무두루미",
+        "age" : 25
+      });
+    }
+
+    Future<void> deleteUser() async{
+      await fs.collection("users").doc("JxbCOLaVkkKH6qw93L75").delete();
     }
 
     return MaterialApp(
@@ -65,6 +89,18 @@ class MyApp extends StatelessWidget {
               ElevatedButton(
                   onPressed: addUser,
                   child: Text("추가!")
+              ),
+              ElevatedButton(
+                  onPressed: getUserList,
+                  child: Text("조회!")
+              ),
+              ElevatedButton(
+                  onPressed: updateUser,
+                  child: Text("수정!")
+              ),
+              ElevatedButton(
+                  onPressed: deleteUser,
+                  child: Text("삭제!")
               )
             ],
           ),
