@@ -57,10 +57,9 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
           Container(
             width: 300, height: 300,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20)  //아직 적용안됨..
             ),
-            child: _image != null ? ClipRect(
-              child: Image.file(_image!),
+            child: _image != null ? ClipOval(
+              child: Image.file(_image!, fit: BoxFit.cover),
             ) : Center(child: Text("이미지 선택되지 않았음"),),
           ), // 이미지 출력
           SizedBox(height: 10,),
