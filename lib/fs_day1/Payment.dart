@@ -26,7 +26,7 @@ class Payment extends StatelessWidget {
         ),
       ),
       /* [필수입력] 가맹점 식별코드 */
-      userCode: 'iamport',
+      userCode: '',
       /* [필수입력] 결제 데이터 */
       data: PaymentData(
           pg: 'html5_inicis',                                          // PG사
